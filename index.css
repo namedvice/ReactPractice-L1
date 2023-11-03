@@ -1,23 +1,49 @@
-body {
-    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+:root {
+    --step--2: clamp(0.7813rem, 0.7786rem + 0.0134vw, 0.8rem);
+    --step--1: clamp(0.9375rem, 0.9286rem + 0.0446vw, 1rem);
+    --step-0: clamp(1.125rem, 1.1071rem + 0.0893vw, 1.25rem);
+    --step-1: clamp(1.35rem, 1.3196rem + 0.1518vw, 1.5625rem);
+    --step-2: clamp(1.62rem, 1.5724rem + 0.2379vw, 1.9531rem);
+    --step-3: clamp(1.9438rem, 1.8727rem + 0.3554vw, 2.4413rem);
+    --step-4: clamp(2.3325rem, 2.2297rem + 0.5138vw, 3.0519rem);
+    --step-5: clamp(2.7994rem, 2.6543rem + 0.7254vw, 3.815rem);
+    --ff-primary: "PT Sans", Calibri, Tahoma, sans-serif
 }
 
-label {
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 30px;
+body {
+    font-family: var(--ff-primary);
+    font-size: var(--step-0);
+    font-weight: 600;
+    line-height: 1.6;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+h2 {
+    margin-block-end: 1rem;
 }
 
 p {
-    margin: auto;
+    margin-block-start: 0;
+    text-align: justify;
 }
+
+section {
+    padding: 3rem 0;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
 
 input {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 20px;
     font-size: 16px;
-    width: 300px;
+    width: 90%;
     height: 40px;
     border-width: 3px;
     border-color: #775139;
@@ -36,51 +62,81 @@ input:active {
     background-color: azure;
 }
 
-.nav {
-
-    top: 0;
+header {
     display: flex;
-    align-items: center;
-    width: 100%;
-
+    padding-block: 1rem;
 }
 
-.navButtons {
-    margin-left: 10%;
-    padding: 10px;
-    width: 200px
+.container {
+    margin-inline: auto;
+    width: min(90%, 70.5rem);
+}
+
+.navigation{
+    display: flex;
+    justify-content:space-around;
+}
+
+.bg-creme {
+    background-color: cornsilk;
+}
+
+.bg-dark {
+    background-color: #333029;
+}
+
+.bg-light {
+    background-color: antiquewhite;
+}
+
+
+.authorizationBlock {
+    padding-block: 1rem;
 }
 
 .authorizationPanel {
-    width: 500px;
-    height: 300px;
+    max-width: 80rem;
+    height: 200px;
     margin: auto;
-    padding: 50px;
+    padding: 1rem;
+    /*padding-left: 30px;*/
+    /*padding-right: 30px;*/
     display: flex;
     flex-direction: column;
+    align-items: center;
+    row-gap: 5px;
     background-color: burlywood;
     border: 5px solid #000000;
     border-radius: 25px;
 }
 
+.knowledgeWrapper {
+    padding-block: 2rem;
+    padding-inline: 2rem;
+}
 
 .knowledgePanel {
-    display: flex;
-    flex-direction: row;
+    /*border: solid 5px #333029;*/
+    margin-inline: auto;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
     justify-content: center;
-    padding: 20px;
+
 }
 
 .knowledgeBlock {
     display: flex;
+    background-color: white;
     flex-direction: column;
-    text-space: 0;
-    width: 300px;
-    min-width: 150px;
-    margin: 20px;
-    padding: 20px;
-    border: black solid;
-    border-radius: 20px;
+    row-gap: 5px;
+    /*margin-inline: auto;*/
+    /*text-space: 0;*/
+    /*height: 20vw;*/
+    /*padding-inline: 1.5rem;*/
+    /*border: black solid;*/
+    /*border-radius: 20px;*/
 }
 
 .knowledgeBlock:hover {
@@ -88,7 +144,7 @@ input:active {
 }
 
 .knowledgeBlockImage {
-    height: 50%;
+    height: 40%;
     object-fit: contain;
 }
 
@@ -96,7 +152,9 @@ input:active {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    left: 50vw;
 }
 
 .pageButton {
@@ -126,3 +184,91 @@ input:active {
     position: relative;
     top: 1px;
 }
+
+.bg {
+    position: sticky;
+    z-index: -1;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg, #ffae00 0%, #ff9100 25%, #ffe35a 51%, #ff357f 100%);
+    -webkit-animation: AnimateBG 20s ease infinite;
+    animation: AnimateBG 20s ease infinite;
+}
+
+@-webkit-keyframes AnimateBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes AnimateBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/*@media all and (426px <= width <= 1024px) {*/
+/*    .knowledgePanel {*/
+/*        grid-template-columns: repeat(2, auto);*/
+/*    }*/
+/*}*/
+
+/*@media all and ( width <= 768px) {*/
+/*    .knowledgePanel {*/
+/*        grid-template-columns: repeat(1, 1rem);*/
+/*    }*/
+/*}*/
+
+/*@media all and(max-width <= 425px) {*/
+/*    .nav {*/
+/*        height: 10vh;*/
+/*    }*/
+/*    .knowledgePanel {*/
+/*        grid-template-columns: repeat(1, 40vw);*/
+/*    }*/
+
+/*}*/
+
+@media screen and (width <= 425px) {
+
+    .knowledgePanel {
+        height: 40vh;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .knowledgeBlock {
+        width: 200px;
+    }
+
+
+    .knowledgePanel {
+        grid-template-columns: repeat(1, 40vw);
+    !important;
+    }
+}
+
