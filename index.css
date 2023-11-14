@@ -12,12 +12,15 @@
 
 body {
     font-family: var(--ff-primary);
-    font-size: var(--step-0);
-    font-weight: 600;
+    /*font-weight: 600;*/
     line-height: 1.6;
     height: 100vh;
     width: 100vw;
 
+}
+
+body, h1, h2, h3, p {
+    margin: 0;
 }
 
 h2 {
@@ -30,7 +33,7 @@ p {
 }
 
 section {
-    padding: 3rem 0;
+    padding: 1rem 0;
 }
 
 img {
@@ -69,12 +72,16 @@ header {
 
 .container {
     margin-inline: auto;
+    padding: 1rem;
     width: min(90%, 70.5rem);
+    height: auto;
 }
 
-.navigation{
+.navigation {
     display: flex;
-    justify-content:space-around;
+    justify-content: space-evenly;
+    margin-inline: auto;
+    max-width: 500px;
 }
 
 .bg-creme {
@@ -95,7 +102,7 @@ header {
 }
 
 .authorizationPanel {
-    max-width: 80rem;
+    max-width: 30rem;
     height: 200px;
     margin: auto;
     padding: 1rem;
@@ -110,18 +117,13 @@ header {
     border-radius: 25px;
 }
 
-.knowledgeWrapper {
-    padding-block: 2rem;
-    padding-inline: 2rem;
-}
 
 .knowledgePanel {
     /*border: solid 5px #333029;*/
-    margin-inline: auto;
-    max-width: 1200px;
+    margin-inline: 5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 3rem;
     justify-content: center;
 
 }
@@ -129,14 +131,11 @@ header {
 .knowledgeBlock {
     display: flex;
     background-color: white;
+    /*max-width: 300px;*/
     flex-direction: column;
-    row-gap: 5px;
-    /*margin-inline: auto;*/
-    /*text-space: 0;*/
-    /*height: 20vw;*/
-    /*padding-inline: 1.5rem;*/
-    /*border: black solid;*/
-    /*border-radius: 20px;*/
+    padding: 1rem;
+    border: solid burlywood 5px;
+    border-radius: 20px;
 }
 
 .knowledgeBlock:hover {
@@ -144,17 +143,17 @@ header {
 }
 
 .knowledgeBlockImage {
-    height: 40%;
-    object-fit: contain;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
 }
 
 .pagination {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-    left: 50vw;
+    justify-content: space-around;
+    max-width: 240px;
+    margin-inline: auto;
 }
 
 .pageButton {
@@ -223,52 +222,3 @@ header {
         background-position: 0% 50%;
     }
 }
-
-
-/*@media all and (426px <= width <= 1024px) {*/
-/*    .knowledgePanel {*/
-/*        grid-template-columns: repeat(2, auto);*/
-/*    }*/
-/*}*/
-
-/*@media all and ( width <= 768px) {*/
-/*    .knowledgePanel {*/
-/*        grid-template-columns: repeat(1, 1rem);*/
-/*    }*/
-/*}*/
-
-/*@media all and(max-width <= 425px) {*/
-/*    .nav {*/
-/*        height: 10vh;*/
-/*    }*/
-/*    .knowledgePanel {*/
-/*        grid-template-columns: repeat(1, 40vw);*/
-/*    }*/
-
-/*}*/
-
-@media screen and (width <= 425px) {
-
-    .knowledgePanel {
-        height: 40vh;
-    }
-
-    h2 {
-        font-size: 18px;
-    }
-
-    p {
-        font-size: 14px;
-    }
-
-    .knowledgeBlock {
-        width: 200px;
-    }
-
-
-    .knowledgePanel {
-        grid-template-columns: repeat(1, 40vw);
-    !important;
-    }
-}
-
