@@ -148,12 +148,19 @@ header {
     height: auto;
 }
 
+.footer{
+    position: sticky;
+    bottom: 0;
+
+}
+
 .pagination {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     max-width: 240px;
     margin-inline: auto;
+
 }
 
 .pageButton {
