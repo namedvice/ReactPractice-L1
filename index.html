@@ -17,30 +17,30 @@
 <header class="bg-creme">
     <div class="container">
         <div class="navigation">
-            <button class="pageButton">Main</button>
-            <button class="pageButton">Sign in</button>
+            <button id="mainButton" class="pageButton">Main</button>
+            <button id="signButton" class="pageButton">Sign in</button>
         </div>
     </div>
 
 </header>
 
-<section class="bg-light">
+<section id="auth" class="bg-light">
     <div class="container">
-        <div class="authorizationPanel">
-            <label for="login">Login</label>
-            <input type="text" id="login"/>
+        <form action="" id="loginForm" class="authorizationPanel">
+            <label for="username">Username</label>
+            <input type="text" id="username"/>
 
             <label for="password">Password</label>
-            <input type="text" id="password"/>
+            <input type="password" id="password"/>
 
-            <button class="pageButton submitButton">Submit</button>
-        </div>
+            <button class="pageButton submitButton" type="submit">Submit</button>
+        </form>
     </div>
 </section>
 
-<section class="bg-dark">
+<section id="knowledge" class="bg-dark">
     <div class="container">
-        <div class="knowledgePanel">
+        <div id="knowledgePanel" class="knowledgePanel">
             <div class="knowledgeBlock">
                 <img class="knowledgeBlockImage"
                      src="./assets/img/flick.png"
@@ -65,7 +65,7 @@
         </div>
     </div>
 </section>
-<section class="bg-creme footer">
+<section id="pagination" class="bg-creme footer">
         <div class="pagination">
 
             <div class="test test-2"></div>
@@ -75,6 +75,7 @@
             <button class="pageButton">Все</button>
         </div>
 </section>
+
 
 
 </body>
