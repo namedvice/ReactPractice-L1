@@ -1,39 +1,128 @@
+let currentPage = 1; // Текущая отображаемая страница
+
+const elementsPerPage = 6
 let loginForm = document.getElementById("loginForm");
 
-const numberOfDogs = 10
+const numberOfDogs = 5
+const numberOfCats = 22
+let knowledgeBlocks = []
 
 async function getDogsInfo() {
     try {
         const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${numberOfDogs}`, {
-            method: "GET",
-            headers: {
+            method: "GET", headers: {
                 "x-api-key": "live_lWvmtEurGGkiDbuhzBhBgPfe4Snq0vqj7nQL2bx3CXfxcYVEMPZHGWnbIa3cYy7F"
             }
         })
-        const data = await response.json()
-        console.log(data)
-        return data
+        return await response.json()
     } catch (err) {
         console.log(err);
     }
 }
 
-async function renderKnowledgePanel() {
-    const dogsInfo = await getDogsInfo()
+async function getCatsInfo() {
+    try {
+        const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${numberOfCats}`, {
+            method: "GET", headers: {
+                "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
+            }
+        })
+        return await response.json()
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+function renderBlock(animalType, animalInfo) {
+    switch (animalType) {
+        case "cat":
+            return (`<div class="knowledgeBlock">
+            <img class = "knowledgeBlockImage" src = "${animalInfo.url}" alt = "cat's missing" >
+            <h3>${animalInfo.name}</h3>
+            <p>${animalInfo.temperament}</p>
+            </div>`);
+        case "dog":
+            return (`<div class="knowledgeBlock">
+        <img class = "knowledgeBlockImage" src = "${animalInfo.image.url}" alt = "dog's missing" >
+        <h3>${animalInfo.name}</h3>
+        <p>${animalInfo.temperament}</p>
+        </div>`)
+    }
+}
+
+async function getKnowledgeBlocks() {
+    const newKnowledgeBlocks = []
+    let dogsInfo = await getDogsInfo()
     console.log(`doginfo is `)
     console.log(dogsInfo)
+    let catsInfo = await getCatsInfo()
+    console.log(`catsInfo is `)
+    console.log(catsInfo)
 
-    let knowledgeBlocks = []
-    for (let i = 0; i < 9; i++) {
-        let newBlock = `<div class="knowledgeBlock">
-        <img class = "knowledgeBlockImage" src = "${dogsInfo[i].image.url}" alt = "Hedgehog's missing" >
-        <h3>${dogsInfo[i].name}</h3>
-        <p>${dogsInfo[i].temperament}</p>
-        </div>`
-        knowledgeBlocks.push(newBlock)
+    while (dogsInfo.length > 0 && catsInfo.length > 0) {
+        let newBlock;
+
+        for (let i = 0; i < 3; i++) {
+            if (dogsInfo[0]) {
+                newKnowledgeBlocks.push(renderBlock("dog", dogsInfo[0]))
+                dogsInfo.shift()
+            } else break
+
+        }
+
+        for (let i = 0; i < 3; i++) {
+            if (catsInfo[0]) {
+                newKnowledgeBlocks.push(renderBlock("cat", catsInfo[0]))
+                catsInfo.shift()
+            } else break
+        }
+        console.log(dogsInfo.length + " " + catsInfo.length)
     }
-    document.getElementById("knowledgePanel").innerHTML = knowledgeBlocks.join("")
+
+    //render animals that's left, if there's any
+    if (dogsInfo.length !== catsInfo.length) {
+        if (dogsInfo.length > 0) {
+            dogsInfo.forEach((element) => newKnowledgeBlocks.push(renderBlock("dog", element)))
+        } else {
+            catsInfo.forEach((element) => newKnowledgeBlocks.push(renderBlock("cat", element)))
+        }
+    }
+    return newKnowledgeBlocks;
 }
+
+function paginationSetup() {
+    const totalPages = Math.ceil(knowledgeBlocks.length / elementsPerPage)
+    document.getElementById("pages").innerHTML = createPaginationButtons(totalPages).join("")
+}
+
+async function assignKnowledgeBlocks() {
+    knowledgeBlocks = await getKnowledgeBlocks()
+}
+
+async function renderKnowledgePanel() {
+    // Вычисление индекса первого отображаемого элемента
+    const startIndex = currentPage * elementsPerPage - elementsPerPage;
+    if (knowledgeBlocks) {
+
+    } else await assignKnowledgeBlocks()
+    const blockOnThePage = knowledgeBlocks.slice(startIndex, startIndex + elementsPerPage);
+    document.getElementById("knowledgePanel").innerHTML = blockOnThePage.join("")
+    paginationSetup()
+}
+
+function createPaginationButtons(pagesCount) {
+    let buttons = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        buttons.push(`<button class="pageButton" key={i} onClick={setCurrentPage(i)}>${i}</button>`);
+    }
+    return buttons;
+}
+
+function setCurrentPage(newPage) {
+    currentPage = newPage;
+    loadElements();
+} //LOOK HERE WHEN YOU COME BACK!!!!
+
 
 function updateUI() {
     if (sessionStorage.getItem("authorizationKey") !== null) {
@@ -80,5 +169,5 @@ loginForm.addEventListener("submit", (e) => {
     // handle submit
 });
 
-renderKnowledgePanel()
 updateUI()
+renderKnowledgePanel()
