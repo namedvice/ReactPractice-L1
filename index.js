@@ -1,10 +1,10 @@
 let currentPage = 1; // Текущая отображаемая страница
 
-const elementsPerPage = 6
+const elementsPerPage = 8
 let loginForm = document.getElementById("loginForm");
 
-const numberOfDogs = 5
-const numberOfCats = 22
+const numberOfDogs = 10
+const numberOfCats = 15
 let knowledgeBlocks = []
 
 async function getDogsInfo() {
@@ -22,7 +22,7 @@ async function getDogsInfo() {
 
 async function getCatsInfo() {
     try {
-        const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${numberOfCats}`, {
+        const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${numberOfCats}`, {
             method: "GET", headers: {
                 "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
             }
@@ -33,11 +33,12 @@ async function getCatsInfo() {
     }
 }
 
+
 function renderBlock(animalType, animalInfo) {
     switch (animalType) {
         case "cat":
             return (`<div class="knowledgeBlock">
-            <img class = "knowledgeBlockImage" src = "${animalInfo.url}" alt = "cat's missing" >
+            <img class = "knowledgeBlockImage" src = "${animalInfo.image.url}" alt = "cat's missing" >
             <h3>${animalInfo.name}</h3>
             <p>${animalInfo.temperament}</p>
             </div>`);
@@ -56,6 +57,7 @@ async function getKnowledgeBlocks() {
     console.log(`doginfo is `)
     console.log(dogsInfo)
     let catsInfo = await getCatsInfo()
+
     console.log(`catsInfo is `)
     console.log(catsInfo)
 
@@ -95,33 +97,33 @@ function paginationSetup() {
     document.getElementById("pages").innerHTML = createPaginationButtons(totalPages).join("")
 }
 
-async function assignKnowledgeBlocks() {
-    knowledgeBlocks = await getKnowledgeBlocks()
-}
 
 async function renderKnowledgePanel() {
     // Вычисление индекса первого отображаемого элемента
     const startIndex = currentPage * elementsPerPage - elementsPerPage;
-    if (knowledgeBlocks) {
 
-    } else await assignKnowledgeBlocks()
-    const blockOnThePage = knowledgeBlocks.slice(startIndex, startIndex + elementsPerPage);
-    document.getElementById("knowledgePanel").innerHTML = blockOnThePage.join("")
+    if (knowledgeBlocks.length === 0) {
+        knowledgeBlocks = await getKnowledgeBlocks()
+    }
+    const blocksOnThePage = knowledgeBlocks.slice(startIndex, startIndex + elementsPerPage);
+
+    document.getElementById("knowledgePanel").innerHTML = blocksOnThePage.join("")
     paginationSetup()
 }
+
+function setCurrentPage(pageToLoad) {
+    currentPage = pageToLoad;
+    void renderKnowledgePanel()
+
+} //LOOK HERE WHEN YOU COME BACK!!!!
 
 function createPaginationButtons(pagesCount) {
     let buttons = [];
     for (let i = 1; i <= pagesCount; i++) {
-        buttons.push(`<button class="pageButton" key={i} onClick={setCurrentPage(i)}>${i}</button>`);
+        buttons.push(`<button class="pageButton" key={i} onclick="setCurrentPage(${i})">${i}</button>`);
     }
     return buttons;
 }
-
-function setCurrentPage(newPage) {
-    currentPage = newPage;
-    loadElements();
-} //LOOK HERE WHEN YOU COME BACK!!!!
 
 
 function updateUI() {
@@ -129,6 +131,7 @@ function updateUI() {
         document.getElementById("auth").remove()
         document.getElementById("signButton").remove()
         document.getElementById("mainButton").className = "highlightedPageButton"
+        void renderKnowledgePanel()
     } else {
         document.getElementById("signButton").className = "highlightedPageButton"
         document.getElementById("mainButton").remove()
@@ -170,4 +173,3 @@ loginForm.addEventListener("submit", (e) => {
 });
 
 updateUI()
-renderKnowledgePanel()
