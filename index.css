@@ -164,9 +164,7 @@ height: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    max-width: 240px;
-    margin-inline: auto;
-
+    margin-inline: 15rem;
 }
 
 .pageButton, .highlightedPageButton {
@@ -185,7 +183,7 @@ height: auto;
 }
 
 .highlightedPageButton {
-    background: #fcf9f2;
+    background: #fff8f8;
 }
 
 .submitButton {
@@ -199,6 +197,7 @@ height: auto;
 .pageButton:active {
     position: relative;
     top: 1px;
+    background-color: #505739;
 }
 
 .bg {

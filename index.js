@@ -1,10 +1,17 @@
-let currentPage = 1; // Текущая отображаемая страница
+let currentPage; // Текущая отображаемая страница
+if (sessionStorage.getItem("currentPage")) {
+    currentPage = Number(sessionStorage.getItem("currentPage"));
+} else {
+    currentPage = 1;
+}
 
-const elementsPerPage = 8
+
+let elementsPerPage = 8
+let maxButtonsDisplayed = 7;
 let loginForm = document.getElementById("loginForm");
 
-const numberOfDogs = 10
-const numberOfCats = 15
+const numberOfDogs = 30
+const numberOfCats = 30
 let knowledgeBlocks = []
 
 async function getDogsInfo() {
@@ -92,6 +99,42 @@ async function getKnowledgeBlocks() {
     return newKnowledgeBlocks;
 }
 
+function setCurrentPage(pageToLoad) {
+    currentPage = pageToLoad;
+    sessionStorage.setItem("currentPage", currentPage)
+
+    location.reload()
+}
+
+function createPaginationButtons(pagesCount) {
+    let buttons = [];
+
+    let i
+    if (currentPage > 4) {
+        buttons.push(`<button class="pageButton" key={12345} onclick="setCurrentPage(1)">В начало</button>`);
+        buttons.push(`<button class="pageButton" key={111}>...</button>`);
+        i = currentPage - 3 //add 3 buttons before dots
+    } else {
+        i = 1
+    }
+    for (i; i <= pagesCount; i++) {
+        if (buttons.length <= maxButtonsDisplayed) {
+            let className = "pageButton"
+            if (i === currentPage) {
+                className = "highlightedPageButton"
+            }
+            buttons.push(`<button class=${className} key={i} onclick="setCurrentPage(${i})">${i}</button>`);
+        } else break
+    }
+
+
+    if (currentPage !== pagesCount) {
+        buttons.push(`<button class="pageButton" key={000}>...</button>`);
+        buttons.push(`<button class="pageButton" key={54321} onclick="setCurrentPage(${currentPage + 1})">Дальше</button>`);
+    }
+    return buttons;
+}
+
 function paginationSetup() {
     const totalPages = Math.ceil(knowledgeBlocks.length / elementsPerPage)
     document.getElementById("pages").innerHTML = createPaginationButtons(totalPages).join("")
@@ -111,21 +154,10 @@ async function renderKnowledgePanel() {
     paginationSetup()
 }
 
-function setCurrentPage(pageToLoad) {
-    currentPage = pageToLoad;
-    void renderKnowledgePanel()
-
-} //LOOK HERE WHEN YOU COME BACK!!!!
-
-function createPaginationButtons(pagesCount) {
-    let buttons = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        buttons.push(`<button class="pageButton" key={i} onclick="setCurrentPage(${i})">${i}</button>`);
-    }
-    return buttons;
-}
+//used to set current page when clicked on pagination button
 
 
+//update UI depending on having been authorized
 function updateUI() {
     if (sessionStorage.getItem("authorizationKey") !== null) {
         document.getElementById("auth").remove()
@@ -172,4 +204,21 @@ loginForm.addEventListener("submit", (e) => {
     // handle submit
 });
 
+
 updateUI()
+
+visualViewport.addEventListener("resize", () => {
+    console.log(visualViewport.width)
+    if (visualViewport.width < 670) {
+        elementsPerPage = 2
+    } else if (visualViewport.width < 930) {
+        elementsPerPage = 4
+    } else if (visualViewport.width < 1075) {
+        elementsPerPage = 6
+        maxButtonsDisplayed = 4
+    } else {
+        elementsPerPage = 8
+        maxButtonsDisplayed = 7
+    }
+    void renderKnowledgePanel()
+})
