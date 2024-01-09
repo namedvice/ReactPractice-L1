@@ -6,17 +6,25 @@ if (sessionStorage.getItem("currentPage")) {
 }
 
 
-let elementsPerPage = 8
+let dogsPerPage = 4
+let catsPerPage = 4
+let skipDogs = (currentPage - 1) * dogsPerPage
+let skipCats = (currentPage - 1) * catsPerPage
+
 let maxButtonsDisplayed = 7;
 let loginForm = document.getElementById("loginForm");
 
-const numberOfDogs = 30
-const numberOfCats = 30
+const numberOfDogs = 15
+const numberOfCats = 7
+
+//dogs and cats arrays of rendered html elements
+const catsList = []
+const dogsList = []
 let knowledgeBlocks = []
 
 async function getDogsInfo() {
     try {
-        const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${numberOfDogs}`, {
+        const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${dogsPerPage}&skip=${skipDogs}`, {
             method: "GET", headers: {
                 "x-api-key": "live_lWvmtEurGGkiDbuhzBhBgPfe4Snq0vqj7nQL2bx3CXfxcYVEMPZHGWnbIa3cYy7F"
             }
@@ -29,7 +37,7 @@ async function getDogsInfo() {
 
 async function getCatsInfo() {
     try {
-        const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${numberOfCats}`, {
+        const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${catsPerPage}&skip=${skipCats}`, {
             method: "GET", headers: {
                 "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
             }
@@ -59,61 +67,40 @@ function renderBlock(animalType, animalInfo) {
 }
 
 async function getKnowledgeBlocks() {
-    const newKnowledgeBlocks = []
+
     let dogsInfo = await getDogsInfo()
-    console.log(`doginfo is `)
-    console.log(dogsInfo)
     let catsInfo = await getCatsInfo()
 
-    console.log(`catsInfo is `)
-    console.log(catsInfo)
 
-    while (dogsInfo.length > 0 && catsInfo.length > 0) {
-        let newBlock;
-
-        for (let i = 0; i < 3; i++) {
-            if (dogsInfo[0]) {
-                newKnowledgeBlocks.push(renderBlock("dog", dogsInfo[0]))
-                dogsInfo.shift()
-            } else break
-
-        }
-
-        for (let i = 0; i < 3; i++) {
-            if (catsInfo[0]) {
-                newKnowledgeBlocks.push(renderBlock("cat", catsInfo[0]))
-                catsInfo.shift()
-            } else break
-        }
-        console.log(dogsInfo.length + " " + catsInfo.length)
+    // create HTML Dog element for each dog
+    while (dogsInfo[0]) {
+        dogsList.push(renderBlock("dog", dogsInfo[0]))
+        dogsInfo.shift()
     }
 
-    //render animals that's left, if there's any
-    if (dogsInfo.length !== catsInfo.length) {
-        if (dogsInfo.length > 0) {
-            dogsInfo.forEach((element) => newKnowledgeBlocks.push(renderBlock("dog", element)))
-        } else {
-            catsInfo.forEach((element) => newKnowledgeBlocks.push(renderBlock("cat", element)))
-        }
+    // create HTML Cat element for each cat
+    while (catsInfo[0]) {
+        catsList.push(renderBlock("cat", catsInfo[0]))
+        catsInfo.shift()
     }
-    return newKnowledgeBlocks;
 }
 
 function setCurrentPage(pageToLoad) {
     currentPage = pageToLoad;
     sessionStorage.setItem("currentPage", currentPage)
-
     location.reload()
 }
 
 function createPaginationButtons(pagesCount) {
     let buttons = [];
-
     let i
+    const buttonsBeforeSelected = 3
+
+    //depending on maximum displayed buttons - we make user see only selected one and 3 before them
     if (currentPage > 4) {
         buttons.push(`<button class="pageButton" key={12345} onclick="setCurrentPage(1)">В начало</button>`);
-        buttons.push(`<button class="pageButton" key={111}>...</button>`);
-        i = currentPage - 3 //add 3 buttons before dots
+        buttons.push(`<button class="pageButton_inactive" key={111}>...</button>`);
+        i = currentPage - buttonsBeforeSelected //add 3 buttons before dots
     } else {
         i = 1
     }
@@ -121,36 +108,50 @@ function createPaginationButtons(pagesCount) {
         if (buttons.length <= maxButtonsDisplayed) {
             let className = "pageButton"
             if (i === currentPage) {
-                className = "highlightedPageButton"
+                className = "pageButton_highlighted"
             }
             buttons.push(`<button class=${className} key={i} onclick="setCurrentPage(${i})">${i}</button>`);
         } else break
     }
 
+    //add ... only if last page button is NOT visible
+    if (i <= pagesCount) {
+        buttons.push(`<button class="pageButton_inactive" key={000}>...</button>`);
+    }
 
     if (currentPage !== pagesCount) {
-        buttons.push(`<button class="pageButton" key={000}>...</button>`);
         buttons.push(`<button class="pageButton" key={54321} onclick="setCurrentPage(${currentPage + 1})">Дальше</button>`);
     }
     return buttons;
 }
 
 function paginationSetup() {
-    const totalPages = Math.ceil(knowledgeBlocks.length / elementsPerPage)
+    const totalPages = Math.ceil((numberOfCats + numberOfDogs) / (catsPerPage + dogsPerPage))
     document.getElementById("pages").innerHTML = createPaginationButtons(totalPages).join("")
 }
 
 
 async function renderKnowledgePanel() {
+    checkDeviceWidth()
     // Вычисление индекса первого отображаемого элемента
-    const startIndex = currentPage * elementsPerPage - elementsPerPage;
+    const startIndex = currentPage * (catsPerPage + dogsPerPage) - (catsPerPage + dogsPerPage)
 
-    if (knowledgeBlocks.length === 0) {
-        knowledgeBlocks = await getKnowledgeBlocks()
+    if (catsList.length === 0 || dogsList.length === 0) {
+        await getKnowledgeBlocks()
     }
-    const blocksOnThePage = knowledgeBlocks.slice(startIndex, startIndex + elementsPerPage);
+
+    //add if no cats are on the page at all
+    if (!catsList[startIndex + catsPerPage]) {
+        catsPerPage = catsList.length - startIndex
+        dogsPerPage = catsPerPage
+    }
+    let blocksOnThePage = [].concat(catsList.slice(startIndex, startIndex + elementsPerPage / 2), dogsList.slice(startIndex, startIndex + elementsPerPage / 2))
+
 
     document.getElementById("knowledgePanel").innerHTML = blocksOnThePage.join("")
+
+    //change CSS of knowledge panel according to amount of items on the page
+    document.getElementById("knowledgePanel").style.gridTemplateColumns = `repeat(${elementsPerPage / 2},minmax(10em, 15em))`
     paginationSetup()
 }
 
@@ -162,10 +163,10 @@ function updateUI() {
     if (sessionStorage.getItem("authorizationKey") !== null) {
         document.getElementById("auth").remove()
         document.getElementById("signButton").remove()
-        document.getElementById("mainButton").className = "highlightedPageButton"
+        document.getElementById("mainButton").className = "pageButton_highlighted"
         void renderKnowledgePanel()
     } else {
-        document.getElementById("signButton").className = "highlightedPageButton"
+        document.getElementById("signButton").className = "pageButton_highlighted"
         document.getElementById("mainButton").remove()
         document.getElementById("knowledge").remove()
         document.getElementById("pagination").remove()
@@ -204,21 +205,28 @@ loginForm.addEventListener("submit", (e) => {
     // handle submit
 });
 
-
-updateUI()
+function checkDeviceWidth() {
+    if (visualViewport.width < 670) {
+        dogsPerPage = 2
+        catsPerPage = 2
+    } else if (visualViewport.width < 930) {
+        dogsPerPage = 3
+        catsPerPage = 3
+    } else if (visualViewport.width < 1075) {
+        dogsPerPage = 4
+        catsPerPage = 4
+        maxButtonsDisplayed = 4
+    } else {
+        dogsPerPage = 4
+        catsPerPage = 4
+        maxButtonsDisplayed = 7
+    }
+    console.log("Viewport Width = " + visualViewport.width)
+}
 
 visualViewport.addEventListener("resize", () => {
     console.log(visualViewport.width)
-    if (visualViewport.width < 670) {
-        elementsPerPage = 2
-    } else if (visualViewport.width < 930) {
-        elementsPerPage = 4
-    } else if (visualViewport.width < 1075) {
-        elementsPerPage = 6
-        maxButtonsDisplayed = 4
-    } else {
-        elementsPerPage = 8
-        maxButtonsDisplayed = 7
-    }
     void renderKnowledgePanel()
 })
+
+updateUI()

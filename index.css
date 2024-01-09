@@ -14,8 +14,8 @@ body {
     font-family: var(--ff-primary);
     /*font-weight: 600;*/
     line-height: 1.6;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
 
 }
 
@@ -82,9 +82,11 @@ header {
     margin-inline: auto;
     max-width: 500px;
 }
-.knowledgeSection{
+
+.knowledgeSection {
     height: 100%;
 }
+
 .bg-creme {
     background-color: cornsilk;
 }
@@ -126,7 +128,7 @@ header {
     /*border: solid 5px #333029;*/
     margin-inline: 5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+    /*grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));*/
     grid-gap: 3rem;
     justify-content: center;
 }
@@ -134,7 +136,7 @@ header {
 .knowledgeBlock {
     display: flex;
     text-align: left;
-height: auto;
+    height: auto;
     background-color: white;
     /*max-width: 300px;*/
     flex-direction: column;
@@ -162,17 +164,16 @@ height: auto;
 
 .pagination {
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin-inline: 15rem;
 }
 
-.pageButton, .highlightedPageButton {
-    box-shadow: 0 1px 0 0 #1c1b18;
+.pageButton, .pageButton_highlighted, .pageButtonInactive {
     background: #eae0c2;
     border-radius: 15px;
     border: 2px solid #333029;
     display: inline-block;
+    margin-right: 8px;
     cursor: pointer;
     color: #505739;
     font-size: 14px;
@@ -182,8 +183,15 @@ height: auto;
     text-shadow: 0 1px 0 #ffffff;
 }
 
-.highlightedPageButton {
+.pageButton_highlighted {
     background: #fff8f8;
+}
+
+.pageButton_inactive {
+    background-color: transparent;
+    border-color: transparent;
+    outline: none;
+    cursor: default;
 }
 
 .submitButton {
