@@ -6,16 +6,20 @@ if (sessionStorage.getItem("currentPage")) {
 }
 
 
-let dogsPerPage = 4
-let catsPerPage = 4
-let skipDogs = (currentPage - 1) * dogsPerPage
-let skipCats = (currentPage - 1) * catsPerPage
+let DOGS_PER_PAGE = 4
+let CATS_PER_PAGE = 4
+
+
+let currentDogsPerPage = DOGS_PER_PAGE
+let currentCatsPerPage = CATS_PER_PAGE
+// let skipDogs
+// let skipCats
 
 let maxButtonsDisplayed = 7;
 let loginForm = document.getElementById("loginForm");
 
-const numberOfDogs = 15
-const numberOfCats = 7
+const numberOfDogs = 25
+const numberOfCats = 25
 
 //dogs and cats arrays of rendered html elements
 const catsList = []
@@ -24,7 +28,7 @@ let knowledgeBlocks = []
 
 async function getDogsInfo() {
     try {
-        const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${dogsPerPage}&skip=${skipDogs}`, {
+        const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${numberOfDogs}`, {
             method: "GET", headers: {
                 "x-api-key": "live_lWvmtEurGGkiDbuhzBhBgPfe4Snq0vqj7nQL2bx3CXfxcYVEMPZHGWnbIa3cYy7F"
             }
@@ -37,7 +41,7 @@ async function getDogsInfo() {
 
 async function getCatsInfo() {
     try {
-        const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${catsPerPage}&skip=${skipCats}`, {
+        const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${numberOfCats}`, {
             method: "GET", headers: {
                 "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
             }
@@ -72,17 +76,45 @@ async function getKnowledgeBlocks() {
     let catsInfo = await getCatsInfo()
 
 
-    // create HTML Dog element for each dog
-    while (dogsInfo[0]) {
-        dogsList.push(renderBlock("dog", dogsInfo[0]))
-        dogsInfo.shift()
+    // create HTML Dog element for each dog and add it to the list of HTML elements
+
+    // if (numberOfCats % currentCatsPerPage !== 0) {
+    //     currentCatsPerPage = numberOfCats % currentCatsPerPage
+    // }
+    //
+    // if (numberOfDogs % currentDogsPerPage !== 0) {
+    //     currentDogsPerPage = numberOfDogs % currentDogsPerPage
+    // }
+
+
+    //check if there will be any cats displayed on this page
+    if ((currentPage - 1) * currentCatsPerPage <= numberOfCats) {
+        for (let i = (currentPage - 1) * CATS_PER_PAGE; i < (currentPage - 1) * CATS_PER_PAGE + CATS_PER_PAGE; i++) {
+            if (i >= numberOfCats) {
+                currentCatsPerPage -= 1
+                currentDogsPerPage = currentCatsPerPage
+                continue
+            }
+            catsList.push(renderBlock("cat", catsInfo[i]))
+            // catsInfo.shift()
+        }
     }
 
-    // create HTML Cat element for each cat
-    while (catsInfo[0]) {
-        catsList.push(renderBlock("cat", catsInfo[0]))
-        catsInfo.shift()
+    //check if there will be any dogs displayed on this page
+    if ((currentPage - 1) * currentDogsPerPage <= numberOfDogs) {
+        // create HTML Cat element for each cat and add it to the list of HTML elements
+        for (let i = (currentPage - 1) * currentDogsPerPage; i < (currentPage - 1) * currentDogsPerPage + currentDogsPerPage; i++) {
+            if (i >= numberOfDogs) {
+                currentDogsPerPage -= 1
+                currentCatsPerPage = currentDogsPerPage
+                continue
+            }
+            console.log("dog i == " + i)
+            dogsList.push(renderBlock("dog", dogsInfo[i]))
+            // dogsInfo.shift()
+        }
     }
+
 }
 
 function setCurrentPage(pageToLoad) {
@@ -126,32 +158,42 @@ function createPaginationButtons(pagesCount) {
 }
 
 function paginationSetup() {
-    const totalPages = Math.ceil((numberOfCats + numberOfDogs) / (catsPerPage + dogsPerPage))
+    const totalPages = Math.ceil((numberOfCats + numberOfDogs) / (currentCatsPerPage + currentDogsPerPage))
     document.getElementById("pages").innerHTML = createPaginationButtons(totalPages).join("")
 }
 
 
 async function renderKnowledgePanel() {
     checkDeviceWidth()
+
     // Вычисление индекса первого отображаемого элемента
-    const startIndex = currentPage * (catsPerPage + dogsPerPage) - (catsPerPage + dogsPerPage)
+    const startIndex = currentPage * (currentCatsPerPage + currentDogsPerPage) - (currentCatsPerPage + currentDogsPerPage)
 
     if (catsList.length === 0 || dogsList.length === 0) {
         await getKnowledgeBlocks()
     }
 
+    // await getKnowledgeBlocks()
+
     //add if no cats are on the page at all
-    if (!catsList[startIndex + catsPerPage]) {
-        catsPerPage = catsList.length - startIndex
-        dogsPerPage = catsPerPage
-    }
-    let blocksOnThePage = [].concat(catsList.slice(startIndex, startIndex + elementsPerPage / 2), dogsList.slice(startIndex, startIndex + elementsPerPage / 2))
+
+    // if (!catsList[startIndex + catsPerPage]) {
+    //     catsPerPage = catsList.length - startIndex
+    //     dogsPerPage = catsPerPage
+    // }
+    let blocksOnThePage = [].concat(catsList, dogsList)
 
 
     document.getElementById("knowledgePanel").innerHTML = blocksOnThePage.join("")
 
     //change CSS of knowledge panel according to amount of items on the page
-    document.getElementById("knowledgePanel").style.gridTemplateColumns = `repeat(${elementsPerPage / 2},minmax(10em, 15em))`
+    if (currentDogsPerPage > currentCatsPerPage) {
+        document.getElementById("knowledgePanel").style.gridTemplateColumns = `repeat(${currentDogsPerPage},minmax(13em, 15em))`
+    } else {
+        document.getElementById("knowledgePanel").style.gridTemplateColumns = `repeat(${currentCatsPerPage},minmax(13em, 15em))`
+    }
+
+
     paginationSetup()
 }
 
@@ -170,6 +212,7 @@ function updateUI() {
         document.getElementById("mainButton").remove()
         document.getElementById("knowledge").remove()
         document.getElementById("pagination").remove()
+
     }
 }
 
@@ -205,28 +248,37 @@ loginForm.addEventListener("submit", (e) => {
     // handle submit
 });
 
+// function checkDeviceWidth() {
+//     if (visualViewport.width < 670) {
+//         currentDogsPerPage = 2
+//         currentCatsPerPage = 2
+//     } else if (visualViewport.width < 930) {
+//         currentDogsPerPage = 3
+//         currentCatsPerPage = 3
+//     } else if (visualViewport.width < 1075) {
+//         currentDogsPerPage = 4
+//         currentCatsPerPage = 4
+//         maxButtonsDisplayed = 4
+//     } else {
+//         DOGS_PER_PAGE = 4
+//         currentCatsPerPage = 4
+//         maxButtonsDisplayed = 7
+//     }
+//     console.log("Viewport Width = " + visualViewport.width)
+// }
+
 function checkDeviceWidth() {
-    if (visualViewport.width < 670) {
-        dogsPerPage = 2
-        catsPerPage = 2
-    } else if (visualViewport.width < 930) {
-        dogsPerPage = 3
-        catsPerPage = 3
-    } else if (visualViewport.width < 1075) {
-        dogsPerPage = 4
-        catsPerPage = 4
-        maxButtonsDisplayed = 4
-    } else {
-        dogsPerPage = 4
-        catsPerPage = 4
-        maxButtonsDisplayed = 7
+    if (visualViewport.width < 1024) {
+        DOGS_PER_PAGE = 2
+        CATS_PER_PAGE = 2
+        currentDogsPerPage = DOGS_PER_PAGE
+        currentCatsPerPage = CATS_PER_PAGE
     }
     console.log("Viewport Width = " + visualViewport.width)
 }
 
 visualViewport.addEventListener("resize", () => {
-    console.log(visualViewport.width)
-    void renderKnowledgePanel()
+    checkDeviceWidth()
 })
 
 updateUI()

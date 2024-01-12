@@ -185,6 +185,7 @@ header {
 
 .pageButton_highlighted {
     background: #fff8f8;
+    border: none;
 }
 
 .pageButton_inactive {
