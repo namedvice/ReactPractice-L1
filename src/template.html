@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+
+<body>
+<header class="bg-creme">
+    <div class="container">
+        <div class="navigation">
+            <button id="mainButton" class="pageButton">Main</button>
+            <button id="signButton" class="pageButton">Sign in</button>
+        </div>
+    </div>
+
+</header>
+
+<section id="auth" class="bg-light">
+    <div class="container">
+        <form action="" id="loginForm" class="authorizationPanel">
+            <label for="username">Username</label>
+            <input type="text" id="username"/>
+
+            <label for="password">Password</label>
+            <input type="password" id="password"/>
+
+            <button class="pageButton submitButton" type="submit">Submit</button>
+        </form>
+    </div>
+</section>
+
+<section id="knowledge" class="bg-dark knowledgeSection">
+    <div class="container">
+        <div id="knowledgePanel" class="knowledgePanel">
+
+        </div>
+    </div>
+</section>
+<section id="pagination" class="bg-creme footer">
+    <div class="container">
+        <div id="pages" class="pagination">
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,3 +1,6 @@
+import './styles/main.css'
+import {setupLoginForm} from "./login.js";
+
 let currentPage; // Текущая отображаемая страница
 if (sessionStorage.getItem("currentPage")) {
     currentPage = Number(sessionStorage.getItem("currentPage"));
@@ -5,6 +8,7 @@ if (sessionStorage.getItem("currentPage")) {
     currentPage = 1;
 }
 
+let pagesHTML = document.getElementById("pages")
 
 let DOGS_PER_PAGE = 4
 let CATS_PER_PAGE = 4
@@ -16,7 +20,7 @@ let currentCatsPerPage = CATS_PER_PAGE
 // let skipCats
 
 let maxButtonsDisplayed = 7;
-let loginForm = document.getElementById("loginForm");
+
 
 const numberOfDogs = 25
 const numberOfCats = 25
@@ -26,7 +30,7 @@ const catsList = []
 const dogsList = []
 let knowledgeBlocks = []
 
-async function getDogsInfo() {
+const getDogsInfo = async () => {
     try {
         const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${numberOfDogs}`, {
             method: "GET", headers: {
@@ -39,7 +43,7 @@ async function getDogsInfo() {
     }
 }
 
-async function getCatsInfo() {
+const getCatsInfo = async () => {
     try {
         const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${numberOfCats}`, {
             method: "GET", headers: {
@@ -53,7 +57,7 @@ async function getCatsInfo() {
 }
 
 
-function renderBlock(animalType, animalInfo) {
+const renderBlock = (animalType, animalInfo) => {
     switch (animalType) {
         case "cat":
             return (`<div class="knowledgeBlock">
@@ -70,7 +74,7 @@ function renderBlock(animalType, animalInfo) {
     }
 }
 
-async function getKnowledgeBlocks() {
+const getKnowledgeBlocks = async () => {
 
     let dogsInfo = await getDogsInfo()
     let catsInfo = await getCatsInfo()
@@ -117,53 +121,66 @@ async function getKnowledgeBlocks() {
 
 }
 
-function setCurrentPage(pageToLoad) {
+const setCurrentPage = (pageToLoad) => {
     currentPage = pageToLoad;
     sessionStorage.setItem("currentPage", currentPage)
     location.reload()
 }
 
-function createPaginationButtons(pagesCount) {
-    let buttons = [];
+const createPaginationButtons = (pagesCount) => {
+    let buttonsCounter = 0;
     let i
     const buttonsBeforeSelected = 3
 
     //depending on maximum displayed buttons - we make user see only selected one and 3 before them
     if (currentPage > 4) {
-        buttons.push(`<button class="pageButton" key={12345} onclick="setCurrentPage(1)">В начало</button>`);
-        buttons.push(`<button class="pageButton_inactive" key={111}>...</button>`);
+        pagesHTML.innerHTML += `<button class="pageButton" key={12345}>В начало</button>`;
+        pagesHTML.children[pagesHTML.children.length - 1].addEventListener("click", function () {
+            setCurrentPage(1)
+        })
+        buttonsCounter++
+        pagesHTML.innerHTML += `<button class="pageButton_inactive" key={111}>...</button>`;
+        buttonsCounter++
         i = currentPage - buttonsBeforeSelected //add 3 buttons before dots
     } else {
         i = 1
     }
     for (i; i <= pagesCount; i++) {
-        if (buttons.length <= maxButtonsDisplayed) {
+        if (buttonsCounter <= maxButtonsDisplayed) {
             let className = "pageButton"
             if (i === currentPage) {
                 className = "pageButton_highlighted"
             }
-            buttons.push(`<button class=${className} key={i} onclick="setCurrentPage(${i})">${i}</button>`);
+            pagesHTML.innerHTML += `<button class=${className} key=${i}>${i}</button>`;
+            pagesHTML.children.item(pagesHTML.children.length - 1).addEventListener("click", function () {
+                console.log("That's your i: " + i)
+            })
+            console.log(pagesHTML.children.item(pagesHTML.children.length - 1))
         } else break
     }
 
     //add ... only if last page button is NOT visible
     if (i <= pagesCount) {
-        buttons.push(`<button class="pageButton_inactive" key={000}>...</button>`);
+        pagesHTML.innerHTML += `<button class="pageButton_inactive" key={000}>...</button>`;
     }
 
     if (currentPage !== pagesCount) {
-        buttons.push(`<button class="pageButton" key={54321} onclick="setCurrentPage(${currentPage + 1})">Дальше</button>`);
+        pagesHTML.innerHTML += `<button class="pageButton" key={54321} ">Дальше</button>`;
+        pagesHTML.children.item(pagesHTML.children.length - 1).addEventListener("click", function () {
+            setCurrentPage(currentPage + 1)
+        })
     }
-    return buttons;
+    // setCurrentPage(1)
+
 }
 
-function paginationSetup() {
+const paginationSetup = () => {
     const totalPages = Math.ceil((numberOfCats + numberOfDogs) / (currentCatsPerPage + currentDogsPerPage))
-    document.getElementById("pages").innerHTML = createPaginationButtons(totalPages).join("")
+    createPaginationButtons(totalPages)
 }
 
 
-async function renderKnowledgePanel() {
+export const renderKnowledgePanel = async () => {
     checkDeviceWidth()
 
     // Вычисление индекса первого отображаемого элемента
@@ -197,77 +214,10 @@ async function renderKnowledgePanel() {
     paginationSetup()
 }
 
-//used to set current page when clicked on pagination button
 
 
-//update UI depending on having been authorized
-function updateUI() {
-    if (sessionStorage.getItem("authorizationKey") !== null) {
-        document.getElementById("auth").remove()
-        document.getElementById("signButton").remove()
-        document.getElementById("mainButton").className = "pageButton_highlighted"
-        void renderKnowledgePanel()
-    } else {
-        document.getElementById("signButton").className = "pageButton_highlighted"
-        document.getElementById("mainButton").remove()
-        document.getElementById("knowledge").remove()
-        document.getElementById("pagination").remove()
 
-    }
-}
-
-loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    let username = document.getElementById('username');
-    let password = document.getElementById('password');
-
-    if (username.value === "" || password.value === "") {
-
-        //throw input borders in red
-        username.className = `${username.className} invalid`
-        username.setCustomValidity("Поле должно быть заполненным!");
-
-        password.className = `${password.className} invalid`
-        password.setCustomValidity("Поле должно быть заполненным!");
-
-    } else if (username.value === "123" && password.value === "123") {
-        alert("This form has been successfully submitted!");
-        let token = (Math.random() + 1).toString(36).substring(7);
-        sessionStorage.setItem("authorizationKey", token);
-        location.reload()
-
-    } else {
-        username.className = `${username.className} invalid`
-        username.setCustomValidity("Логин или пароль неверны!");
-
-        password.className = `${password.className} invalid`
-    }
-    username.value = "";
-    password.value = "";
-    // handle submit
-});
-
-// function checkDeviceWidth() {
-//     if (visualViewport.width < 670) {
-//         currentDogsPerPage = 2
-//         currentCatsPerPage = 2
-//     } else if (visualViewport.width < 930) {
-//         currentDogsPerPage = 3
-//         currentCatsPerPage = 3
-//     } else if (visualViewport.width < 1075) {
-//         currentDogsPerPage = 4
-//         currentCatsPerPage = 4
-//         maxButtonsDisplayed = 4
-//     } else {
-//         DOGS_PER_PAGE = 4
-//         currentCatsPerPage = 4
-//         maxButtonsDisplayed = 7
-//     }
-//     console.log("Viewport Width = " + visualViewport.width)
-// }
-
-function checkDeviceWidth() {
+const checkDeviceWidth = () => {
     if (visualViewport.width < 1024) {
         DOGS_PER_PAGE = 2
         CATS_PER_PAGE = 2
@@ -280,5 +230,3 @@ function checkDeviceWidth() {
 visualViewport.addEventListener("resize", () => {
     checkDeviceWidth()
 })
-
-updateUI()
