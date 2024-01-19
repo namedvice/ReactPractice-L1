@@ -1,5 +1,5 @@
 import './styles/main.css'
-import {setupLoginForm} from "./login.js";
+
 
 let currentPage; // Текущая отображаемая страница
 if (sessionStorage.getItem("currentPage")) {
@@ -126,7 +126,8 @@ const setCurrentPage = (pageToLoad) => {
     sessionStorage.setItem("currentPage", currentPage)
     location.reload()
 }
-
+// export default setCurrentPage
+window.setCurrentPage = setCurrentPage
 const createPaginationButtons = (pagesCount) => {
     let buttonsCounter = 0;
     let i
@@ -134,10 +135,7 @@ const createPaginationButtons = (pagesCount) => {
 
     //depending on maximum displayed buttons - we make user see only selected one and 3 before them
     if (currentPage > 4) {
-        pagesHTML.innerHTML += `<button class="pageButton" key={12345}>В начало</button>`;
-        pagesHTML.children[pagesHTML.children.length - 1].addEventListener("click", function () {
-            setCurrentPage(1)
-        })
+        pagesHTML.innerHTML += `<button class="pageButton" key={12345} onclick="setCurrentPage(1)">В начало</button>`;
         buttonsCounter++
         pagesHTML.innerHTML += `<button class="pageButton_inactive" key={111}>...</button>`;
         buttonsCounter++
@@ -151,11 +149,7 @@ const createPaginationButtons = (pagesCount) => {
             if (i === currentPage) {
                 className = "pageButton_highlighted"
             }
-            pagesHTML.innerHTML += `<button class=${className} key=${i}>${i}</button>`;
-            pagesHTML.children.item(pagesHTML.children.length - 1).addEventListener("click", function () {
-                console.log("That's your i: " + i)
-            })
-            console.log(pagesHTML.children.item(pagesHTML.children.length - 1))
+            pagesHTML.innerHTML += `<button class=${className} key=${i} onclick="setCurrentPage(${i})">${i}</button>`;
         } else break
     }
 
@@ -215,8 +209,6 @@ export const renderKnowledgePanel = async () => {
 }
 
 
-
-
 const checkDeviceWidth = () => {
     if (visualViewport.width < 1024) {
         DOGS_PER_PAGE = 2
@@ -230,3 +222,6 @@ const checkDeviceWidth = () => {
 visualViewport.addEventListener("resize", () => {
     checkDeviceWidth()
 })
+
+// export default setCurrentPage;
+// exports.setCurrentPage = setCurrentPage

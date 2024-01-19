@@ -11,7 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name][contenthash].js',
          //does not allow for multiple bundle.js to arrive in dist folder
-    assetModuleFilename: '[name][ext]'
+    assetModuleFilename: '[name][ext]',
     },
     devtool: 'source-map',
     devServer: {
