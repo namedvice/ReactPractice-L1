@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
     entry: {
-        bundle: path.resolve(__dirname, './src/index.js')
+        bundle: path.resolve(__dirname, './src/index.ts')
     },
     output: {
         clean: true,
         path: path.resolve(__dirname, 'dist'),
         filename: '[name][contenthash].js',
-         //does not allow for multiple bundle.js to arrive in dist folder
-    assetModuleFilename: '[name][ext]',
+        //does not allow for multiple bundle.js to arrive in dist folder
+        assetModuleFilename: '[name][ext]',
     },
     devtool: 'source-map',
     devServer: {
@@ -26,12 +26,18 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.scss$|\.css$/, use: ['style-loader', 'css-loader', 'sass-loader']
+            test: /\.scss$|\.css$/,
+            use: ['style-loader', 'css-loader', "sass-loader"],
+            exclude: /node_modules/,
         },
             {
+                test: /\.([cm]?ts|tsx)$/,
+                loader: "ts-loader"
+            },
+            {
                 test: /\.js$/,
-                exclude:/node_modules/,
-                use:{
+                exclude: /node_modules/,
+                use: {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env']
@@ -43,7 +49,10 @@ module.exports = {
                 type: 'assets/resource'
             }]
     },
-    plugins:[
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
+    },
+    plugins: [
         new HtmlWebpackPlugin({
             title: 'React Test App',
             filename: 'index.html',

@@ -3,11 +3,11 @@
 export const setupLoginForm = () => {
     let loginForm = document.getElementById("loginForm");
 
-    loginForm.addEventListener("submit", (e) => {
+    loginForm!.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        let username = document.getElementById('username');
-        let password = document.getElementById('password');
+        let username:any = document.getElementById('username');
+        let password:any = document.getElementById('password');
 
         if (username.value === "" || password.value === "") {
 

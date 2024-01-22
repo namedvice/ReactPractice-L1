@@ -2,344 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/login.js":
-/*!**********************!*\
-  !*** ./src/login.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   setupLoginForm: () => (/* binding */ setupLoginForm)
-/* harmony export */ });
-var setupLoginForm = function setupLoginForm() {
-  var loginForm = document.getElementById("loginForm");
-  loginForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var username = document.getElementById('username');
-    var password = document.getElementById('password');
-    if (username.value === "" || password.value === "") {
-      //throw input borders in red
-      username.className = "".concat(username.className, " invalid");
-      username.setCustomValidity("Поле должно быть заполненным!");
-      password.className = "".concat(password.className, " invalid");
-      password.setCustomValidity("Поле должно быть заполненным!");
-    } else if (username.value === "123" && password.value === "123") {
-      alert("This form has been successfully submitted!");
-      var token = (Math.random() + 1).toString(36).substring(7);
-      sessionStorage.setItem("authorizationKey", token);
-      location.reload();
-    } else {
-      username.className = "".concat(username.className, " invalid");
-      username.setCustomValidity("Логин или пароль неверны!");
-      password.className = "".concat(password.className, " invalid");
-    }
-    username.value = "";
-    password.value = "";
-    // handle submit
-  });
-};
-
-/***/ }),
-
-/***/ "./src/main.js":
-/*!*********************!*\
-  !*** ./src/main.js ***!
-  \*********************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   renderKnowledgePanel: () => (/* binding */ renderKnowledgePanel)
-/* harmony export */ });
-/* harmony import */ var _styles_main_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/main.css */ "./src/styles/main.css");
-/* module decorator */ module = __webpack_require__.hmd(module);
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw new Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw new Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var currentPage; // Текущая отображаемая страница
-if (sessionStorage.getItem("currentPage")) {
-  currentPage = Number(sessionStorage.getItem("currentPage"));
-} else {
-  currentPage = 1;
-}
-var pagesHTML = document.getElementById("pages");
-var DOGS_PER_PAGE = 4;
-var CATS_PER_PAGE = 4;
-var currentDogsPerPage = DOGS_PER_PAGE;
-var currentCatsPerPage = CATS_PER_PAGE;
-// let skipDogs
-// let skipCats
-
-var maxButtonsDisplayed = 7;
-var numberOfDogs = 25;
-var numberOfCats = 25;
-
-//dogs and cats arrays of rendered html elements
-var catsList = [];
-var dogsList = [];
-var knowledgeBlocks = [];
-var getDogsInfo = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var response;
-    return _regeneratorRuntime().wrap(function _callee$(_context) {
-      while (1) switch (_context.prev = _context.next) {
-        case 0:
-          _context.prev = 0;
-          _context.next = 3;
-          return fetch("https://api.thedogapi.com/v1/breeds?limit=".concat(numberOfDogs), {
-            method: "GET",
-            headers: {
-              "x-api-key": "live_lWvmtEurGGkiDbuhzBhBgPfe4Snq0vqj7nQL2bx3CXfxcYVEMPZHGWnbIa3cYy7F"
-            }
-          });
-        case 3:
-          response = _context.sent;
-          _context.next = 6;
-          return response.json();
-        case 6:
-          return _context.abrupt("return", _context.sent);
-        case 9:
-          _context.prev = 9;
-          _context.t0 = _context["catch"](0);
-          console.log(_context.t0);
-        case 12:
-        case "end":
-          return _context.stop();
-      }
-    }, _callee, null, [[0, 9]]);
-  }));
-  return function getDogsInfo() {
-    return _ref.apply(this, arguments);
-  };
-}();
-var getCatsInfo = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-    var response;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
-        case 0:
-          _context2.prev = 0;
-          _context2.next = 3;
-          return fetch("https://api.thecatapi.com/v1/breeds?limit=".concat(numberOfCats), {
-            method: "GET",
-            headers: {
-              "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
-            }
-          });
-        case 3:
-          response = _context2.sent;
-          _context2.next = 6;
-          return response.json();
-        case 6:
-          return _context2.abrupt("return", _context2.sent);
-        case 9:
-          _context2.prev = 9;
-          _context2.t0 = _context2["catch"](0);
-          console.log(_context2.t0);
-        case 12:
-        case "end":
-          return _context2.stop();
-      }
-    }, _callee2, null, [[0, 9]]);
-  }));
-  return function getCatsInfo() {
-    return _ref2.apply(this, arguments);
-  };
-}();
-var renderBlock = function renderBlock(animalType, animalInfo) {
-  switch (animalType) {
-    case "cat":
-      return "<div class=\"knowledgeBlock\">\n            <img class = \"knowledgeBlockImage\" src = \"".concat(animalInfo.image.url, "\" alt = \"cat's missing\" >\n            <h3>").concat(animalInfo.name, "</h3>\n            <p>").concat(animalInfo.temperament, "</p>\n            </div>");
-    case "dog":
-      return "<div class=\"knowledgeBlock\">\n        <img class = \"knowledgeBlockImage\" src = \"".concat(animalInfo.image.url, "\" alt = \"dog's missing\" >\n        <h3>").concat(animalInfo.name, "</h3>\n        <p>").concat(animalInfo.temperament, "</p>\n        </div>");
-  }
-};
-var getKnowledgeBlocks = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-    var dogsInfo, catsInfo, i, _i;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
-        case 0:
-          _context3.next = 2;
-          return getDogsInfo();
-        case 2:
-          dogsInfo = _context3.sent;
-          _context3.next = 5;
-          return getCatsInfo();
-        case 5:
-          catsInfo = _context3.sent;
-          if (!((currentPage - 1) * currentCatsPerPage <= numberOfCats)) {
-            _context3.next = 17;
-            break;
-          }
-          i = (currentPage - 1) * CATS_PER_PAGE;
-        case 8:
-          if (!(i < (currentPage - 1) * CATS_PER_PAGE + CATS_PER_PAGE)) {
-            _context3.next = 17;
-            break;
-          }
-          if (!(i >= numberOfCats)) {
-            _context3.next = 13;
-            break;
-          }
-          currentCatsPerPage -= 1;
-          currentDogsPerPage = currentCatsPerPage;
-          return _context3.abrupt("continue", 14);
-        case 13:
-          catsList.push(renderBlock("cat", catsInfo[i]));
-          // catsInfo.shift()
-        case 14:
-          i++;
-          _context3.next = 8;
-          break;
-        case 17:
-          if (!((currentPage - 1) * currentDogsPerPage <= numberOfDogs)) {
-            _context3.next = 29;
-            break;
-          }
-          _i = (currentPage - 1) * currentDogsPerPage;
-        case 19:
-          if (!(_i < (currentPage - 1) * currentDogsPerPage + currentDogsPerPage)) {
-            _context3.next = 29;
-            break;
-          }
-          if (!(_i >= numberOfDogs)) {
-            _context3.next = 24;
-            break;
-          }
-          currentDogsPerPage -= 1;
-          currentCatsPerPage = currentDogsPerPage;
-          return _context3.abrupt("continue", 26);
-        case 24:
-          console.log("dog i == " + _i);
-          dogsList.push(renderBlock("dog", dogsInfo[_i]));
-          // dogsInfo.shift()
-        case 26:
-          _i++;
-          _context3.next = 19;
-          break;
-        case 29:
-        case "end":
-          return _context3.stop();
-      }
-    }, _callee3);
-  }));
-  return function getKnowledgeBlocks() {
-    return _ref3.apply(this, arguments);
-  };
-}();
-var setCurrentPage = function setCurrentPage(pageToLoad) {
-  currentPage = pageToLoad;
-  sessionStorage.setItem("currentPage", currentPage);
-  location.reload();
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setCurrentPage);
-var createPaginationButtons = function createPaginationButtons(pagesCount) {
-  var buttonsCounter = 0;
-  var i;
-  var buttonsBeforeSelected = 3;
-
-  //depending on maximum displayed buttons - we make user see only selected one and 3 before them
-  if (currentPage > 4) {
-    pagesHTML.innerHTML += "<button class=\"pageButton\" key={12345} onclick=\"setCurrentPage(1)\">\u0412 \u043D\u0430\u0447\u0430\u043B\u043E</button>";
-    buttonsCounter++;
-    pagesHTML.innerHTML += "<button class=\"pageButton_inactive\" key={111}>...</button>";
-    buttonsCounter++;
-    i = currentPage - buttonsBeforeSelected; //add 3 buttons before dots
-  } else {
-    i = 1;
-  }
-  for (i; i <= pagesCount; i++) {
-    if (buttonsCounter <= maxButtonsDisplayed) {
-      var className = "pageButton";
-      if (i === currentPage) {
-        className = "pageButton_highlighted";
-      }
-      pagesHTML.innerHTML += "<button class=".concat(className, " key=").concat(i, " onclick=\"setCurrentPage(i)\">").concat(i, "</button>");
-    } else break;
-  }
-
-  //add ... only if last page button is NOT visible
-  if (i <= pagesCount) {
-    pagesHTML.innerHTML += "<button class=\"pageButton_inactive\" key={000}>...</button>";
-  }
-  if (currentPage !== pagesCount) {
-    pagesHTML.innerHTML += "<button class=\"pageButton\" key={54321} \">\u0414\u0430\u043B\u044C\u0448\u0435</button>";
-    pagesHTML.children.item(pagesHTML.children.length - 1).addEventListener("click", function () {
-      setCurrentPage(currentPage + 1);
-    });
-  }
-  // setCurrentPage(1)
-};
-var paginationSetup = function paginationSetup() {
-  var totalPages = Math.ceil((numberOfCats + numberOfDogs) / (currentCatsPerPage + currentDogsPerPage));
-  createPaginationButtons(totalPages);
-};
-var renderKnowledgePanel = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-    var startIndex, blocksOnThePage;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-      while (1) switch (_context4.prev = _context4.next) {
-        case 0:
-          checkDeviceWidth();
-
-          // Вычисление индекса первого отображаемого элемента
-          startIndex = currentPage * (currentCatsPerPage + currentDogsPerPage) - (currentCatsPerPage + currentDogsPerPage);
-          if (!(catsList.length === 0 || dogsList.length === 0)) {
-            _context4.next = 5;
-            break;
-          }
-          _context4.next = 5;
-          return getKnowledgeBlocks();
-        case 5:
-          // await getKnowledgeBlocks()
-          //add if no cats are on the page at all
-          // if (!catsList[startIndex + catsPerPage]) {
-          //     catsPerPage = catsList.length - startIndex
-          //     dogsPerPage = catsPerPage
-          // }
-          blocksOnThePage = [].concat(catsList, dogsList);
-          document.getElementById("knowledgePanel").innerHTML = blocksOnThePage.join("");
-
-          //change CSS of knowledge panel according to amount of items on the page
-          if (currentDogsPerPage > currentCatsPerPage) {
-            document.getElementById("knowledgePanel").style.gridTemplateColumns = "repeat(".concat(currentDogsPerPage, ",minmax(13em, 15em))");
-          } else {
-            document.getElementById("knowledgePanel").style.gridTemplateColumns = "repeat(".concat(currentCatsPerPage, ",minmax(13em, 15em))");
-          }
-          paginationSetup();
-        case 9:
-        case "end":
-          return _context4.stop();
-      }
-    }, _callee4);
-  }));
-  return function renderKnowledgePanel() {
-    return _ref4.apply(this, arguments);
-  };
-}();
-var checkDeviceWidth = function checkDeviceWidth() {
-  if (visualViewport.width < 1024) {
-    DOGS_PER_PAGE = 2;
-    CATS_PER_PAGE = 2;
-    currentDogsPerPage = DOGS_PER_PAGE;
-    currentCatsPerPage = CATS_PER_PAGE;
-  }
-  console.log("Viewport Width = " + visualViewport.width);
-};
-visualViewport.addEventListener("resize", function () {
-  checkDeviceWidth();
-});
-module.exports = {
-  setCurrentPage: setCurrentPage
-};
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.css":
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.css ***!
@@ -1046,6 +708,288 @@ function styleTagTransform(css, styleElement) {
 }
 module.exports = styleTagTransform;
 
+/***/ }),
+
+/***/ "./src/login.ts":
+/*!**********************!*\
+  !*** ./src/login.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.setupLoginForm = void 0;
+var setupLoginForm = function () {
+    var loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var username = document.getElementById('username');
+        var password = document.getElementById('password');
+        if (username.value === "" || password.value === "") {
+            username.className = "".concat(username.className, " invalid");
+            username.setCustomValidity("Поле должно быть заполненным!");
+            password.className = "".concat(password.className, " invalid");
+            password.setCustomValidity("Поле должно быть заполненным!");
+        }
+        else if (username.value === "123" && password.value === "123") {
+            alert("This form has been successfully submitted!");
+            var token = (Math.random() + 1).toString(36).substring(7);
+            sessionStorage.setItem("authorizationKey", token);
+            location.reload();
+        }
+        else {
+            username.className = "".concat(username.className, " invalid");
+            username.setCustomValidity("Логин или пароль неверны!");
+            password.className = "".concat(password.className, " invalid");
+        }
+        username.value = "";
+        password.value = "";
+    });
+};
+exports.setupLoginForm = setupLoginForm;
+
+
+/***/ }),
+
+/***/ "./src/main.ts":
+/*!*********************!*\
+  !*** ./src/main.ts ***!
+  \*********************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.renderKnowledgePanel = void 0;
+__webpack_require__(/*! ./styles/main.css */ "./src/styles/main.css");
+var currentPage;
+if (sessionStorage.getItem("currentPage")) {
+    currentPage = Number(sessionStorage.getItem("currentPage"));
+}
+else {
+    currentPage = 1;
+}
+var pagesHTML = document.getElementById("pages");
+var DOGS_PER_PAGE = 4;
+var CATS_PER_PAGE = 4;
+var currentDogsPerPage = DOGS_PER_PAGE;
+var currentCatsPerPage = CATS_PER_PAGE;
+var maxButtonsDisplayed = 7;
+var numberOfDogs = 25;
+var numberOfCats = 25;
+var catsList = [];
+var dogsList = [];
+var getDogsInfo = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var response, err_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4, fetch("https://api.thedogapi.com/v1/breeds?limit=".concat(numberOfDogs), {
+                        method: "GET", headers: {
+                            "x-api-key": "live_lWvmtEurGGkiDbuhzBhBgPfe4Snq0vqj7nQL2bx3CXfxcYVEMPZHGWnbIa3cYy7F"
+                        }
+                    })];
+            case 1:
+                response = _a.sent();
+                return [4, response.json()];
+            case 2: return [2, _a.sent()];
+            case 3:
+                err_1 = _a.sent();
+                console.log(err_1);
+                return [3, 4];
+            case 4: return [2];
+        }
+    });
+}); };
+var getCatsInfo = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var response, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4, fetch("https://api.thecatapi.com/v1/breeds?limit=".concat(numberOfCats), {
+                        method: "GET", headers: {
+                            "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
+                        }
+                    })];
+            case 1:
+                response = _a.sent();
+                return [4, response.json()];
+            case 2: return [2, _a.sent()];
+            case 3:
+                err_2 = _a.sent();
+                console.log(err_2);
+                return [3, 4];
+            case 4: return [2];
+        }
+    });
+}); };
+var renderBlock = function (animalType, animalInfo) {
+    switch (animalType) {
+        case "cat":
+            return ("<div class=\"knowledgeBlock\">\n            <img class = \"knowledgeBlockImage\" src = \"".concat(animalInfo.image.url, "\" alt = \"cat's missing\" >\n            <h3>").concat(animalInfo.name, "</h3>\n            <p>").concat(animalInfo.temperament, "</p>\n            </div>"));
+        case "dog":
+            return ("<div class=\"knowledgeBlock\">\n        <img class = \"knowledgeBlockImage\" src = \"".concat(animalInfo.image.url, "\" alt = \"dog's missing\" >\n        <h3>").concat(animalInfo.name, "</h3>\n        <p>").concat(animalInfo.temperament, "</p>\n        </div>"));
+        default:
+            return null;
+    }
+};
+var getKnowledgeBlocks = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var dogsInfo, catsInfo, i, i;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, getDogsInfo()];
+            case 1:
+                dogsInfo = _a.sent();
+                return [4, getCatsInfo()];
+            case 2:
+                catsInfo = _a.sent();
+                if ((currentPage - 1) * currentCatsPerPage <= numberOfCats) {
+                    for (i = (currentPage - 1) * CATS_PER_PAGE; i < (currentPage - 1) * CATS_PER_PAGE + CATS_PER_PAGE; i++) {
+                        if (i >= numberOfCats) {
+                            currentCatsPerPage -= 1;
+                            currentDogsPerPage = currentCatsPerPage;
+                            continue;
+                        }
+                        catsList.push(renderBlock("cat", catsInfo[i]));
+                    }
+                }
+                if ((currentPage - 1) * currentDogsPerPage <= numberOfDogs) {
+                    for (i = (currentPage - 1) * currentDogsPerPage; i < (currentPage - 1) * currentDogsPerPage + currentDogsPerPage; i++) {
+                        if (i >= numberOfDogs) {
+                            currentDogsPerPage -= 1;
+                            currentCatsPerPage = currentDogsPerPage;
+                            continue;
+                        }
+                        console.log("dog i == " + i);
+                        dogsList.push(renderBlock("dog", dogsInfo[i]));
+                    }
+                }
+                return [2];
+        }
+    });
+}); };
+var setCurrentPage = function (pageToLoad) {
+    currentPage = pageToLoad;
+    sessionStorage.setItem("currentPage", currentPage.toString());
+    location.reload();
+};
+window.setCurrentPage = setCurrentPage;
+var createPaginationButtons = function (pagesCount) {
+    var buttonsCounter = 0;
+    var i;
+    var buttonsBeforeSelected = 3;
+    if (currentPage > 4) {
+        pagesHTML.innerHTML += "<button class=\"pageButton\" key={12345} onclick=\"setCurrentPage(1)\">\u0412 \u043D\u0430\u0447\u0430\u043B\u043E</button>";
+        buttonsCounter++;
+        pagesHTML.innerHTML += "<button class=\"pageButton_inactive\" key={111}>...</button>";
+        buttonsCounter++;
+        i = currentPage - buttonsBeforeSelected;
+    }
+    else {
+        i = 1;
+    }
+    for (i; i <= pagesCount; i++) {
+        if (buttonsCounter <= maxButtonsDisplayed) {
+            var className = "pageButton";
+            if (i === currentPage) {
+                className = "pageButton_highlighted";
+            }
+            pagesHTML.innerHTML += "<button class=".concat(className, " key=").concat(i, " onclick=\"setCurrentPage(").concat(i, ")\">").concat(i, "</button>");
+        }
+        else
+            break;
+    }
+    if (i <= pagesCount) {
+        pagesHTML.innerHTML += "<button class=\"pageButton_inactive\" key={000}>...</button>";
+    }
+    if (currentPage !== pagesCount) {
+        pagesHTML.innerHTML += "<button class=\"pageButton\" key={54321} \">\u0414\u0430\u043B\u044C\u0448\u0435</button>";
+        pagesHTML.children.item(pagesHTML.children.length - 1).addEventListener("click", function () {
+            setCurrentPage(currentPage + 1);
+        });
+    }
+};
+var paginationSetup = function () {
+    var totalPages = Math.ceil((numberOfCats + numberOfDogs) / (currentCatsPerPage + currentDogsPerPage));
+    createPaginationButtons(totalPages);
+};
+var renderKnowledgePanel = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var blocksOnThePage;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                checkDeviceWidth();
+                if (!(catsList.length === 0 || dogsList.length === 0)) return [3, 2];
+                return [4, getKnowledgeBlocks()];
+            case 1:
+                _a.sent();
+                _a.label = 2;
+            case 2:
+                blocksOnThePage = [].concat(catsList, dogsList);
+                document.getElementById("knowledgePanel").innerHTML = blocksOnThePage.join("");
+                if (currentDogsPerPage > currentCatsPerPage) {
+                    document.getElementById("knowledgePanel").style.gridTemplateColumns = "repeat(".concat(currentDogsPerPage, ",minmax(13em, 15em))");
+                }
+                else {
+                    document.getElementById("knowledgePanel").style.gridTemplateColumns = "repeat(".concat(currentCatsPerPage, ",minmax(13em, 15em))");
+                }
+                paginationSetup();
+                return [2];
+        }
+    });
+}); };
+exports.renderKnowledgePanel = renderKnowledgePanel;
+var checkDeviceWidth = function () {
+    if (visualViewport.width < 1024) {
+        DOGS_PER_PAGE = 2;
+        CATS_PER_PAGE = 2;
+        currentDogsPerPage = DOGS_PER_PAGE;
+        currentCatsPerPage = CATS_PER_PAGE;
+    }
+    console.log("Viewport Width = " + visualViewport.width);
+};
+visualViewport.addEventListener("resize", function () {
+    checkDeviceWidth();
+});
+
+
 /***/ })
 
 /******/ 	});
@@ -1063,15 +1007,12 @@ module.exports = styleTagTransform;
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
 /******/ 			id: moduleId,
-/******/ 			loaded: false,
+/******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -1102,21 +1043,6 @@ module.exports = styleTagTransform;
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__webpack_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -1142,30 +1068,30 @@ module.exports = styleTagTransform;
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
+var exports = __webpack_exports__;
 /*!**********************!*\
-  !*** ./src/index.js ***!
+  !*** ./src/index.ts ***!
   \**********************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _login_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./login.js */ "./src/login.js");
-/* harmony import */ var _main_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./main.js */ "./src/main.js");
 
-
-
-//update UI depending on having been authorized
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var login_1 = __webpack_require__(/*! ./login */ "./src/login.ts");
+var main_1 = __webpack_require__(/*! ./main */ "./src/main.ts");
 if (sessionStorage.getItem("authorizationKey") !== null) {
-  document.getElementById("auth").remove();
-  document.getElementById("signButton").remove();
-  document.getElementById("mainButton").className = "pageButton_highlighted";
-  void (0,_main_js__WEBPACK_IMPORTED_MODULE_1__.renderKnowledgePanel)();
-} else {
-  document.getElementById("signButton").className = "pageButton_highlighted";
-  document.getElementById("mainButton").remove();
-  document.getElementById("knowledge").remove();
-  document.getElementById("pagination").remove();
-  (0,_login_js__WEBPACK_IMPORTED_MODULE_0__.setupLoginForm)();
+    document.getElementById("auth").remove();
+    document.getElementById("signButton").remove();
+    document.getElementById("mainButton").className = "pageButton_highlighted";
+    void (0, main_1.renderKnowledgePanel)();
 }
+else {
+    document.getElementById("signButton").className = "pageButton_highlighted";
+    document.getElementById("mainButton").remove();
+    document.getElementById("knowledge").remove();
+    document.getElementById("pagination").remove();
+    (0, login_1.setupLoginForm)();
+}
+
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundlea64e5fa3552ca0d5c7bb.js.map
+//# sourceMappingURL=bundled83cd259dc6ae32b0c3f.js.map
