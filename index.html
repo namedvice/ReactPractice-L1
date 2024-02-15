@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <link rel="stylesheet" href="index.css">
     <title>HTML</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta charset="utf-8">
 </head>
 
 
@@ -11,48 +13,45 @@
 
 <script defer src="index.js"></script>
 
-<div>
-    <button>Main</button>
-    <button>Sign in</button>
-</div>
 
-<div>
-    <label for="login">Login</label>
-    <input type="text" id="login" />
-
-    <label for="password">Password</label>
-    <input type="text" id="password"/>
-
-    <button>Submit</button>
-</div>
-<div>
-    <div>
-        <h1>Фалес Милетский</h1>
-        <p>Блаженство тела состоит в здоровье, блаженство ума - в знании</p>
-        <img src="https://i.pinimg.com/originals/bd/35/82/bd358277cbac6cbc6a8227a1ae09c815.jpg" height="200px"
-             alt="Hedgehog's missing">
+<header class="bg-creme">
+    <div class="container">
+        <div class="navigation">
+            <button id="mainButton" class="pageButton">Main</button>
+            <button id="signButton" class="pageButton">Sign in</button>
+        </div>
     </div>
 
-    <div>
-        <h1>Леонардо да Винчи</h1>
-        <p>Единственным критерием истины является опыт</p>
-        <img src="https://www.ownaj.com/cdn/shop/products/mockupsticker1_grande.png?v=1624859550" height="200px"
-             alt="Hedgehog's missing">
-    </div>
+</header>
 
-    <div>
-        <h1>Цицерон</h1>
-        <p>Тем, кто хочет учиться, часто вредит авторитет тех, кто учит</p>
-        <img src="https://mangatoto.com/aok/xfs/attachs/b4d276d7d654ac853d38e8254696bdc5144c417c_1284_726_49153.jpeg"
-             height="200px" alt="Hedgehog's missing">
-    </div>
-</div>
+<section id="auth" class="bg-light">
+    <div class="container">
+        <form action="" id="loginForm" class="authorizationPanel">
+            <label for="username">Username</label>
+            <input type="text" id="username"/>
 
-<button>1</button>
-<button>2</button>
-<button>3</button>
-<button>Все</button>
+            <label for="password">Password</label>
+            <input type="password" id="password"/>
+
+            <button class="pageButton submitButton" type="submit">Submit</button>
+        </form>
+    </div>
+</section>
+
+<section id="knowledge" class="bg-dark knowledgeSection">
+    <div class="container">
+        <div id="knowledgePanel" class="knowledgePanel">
+
+        </div>
+    </div>
+</section>
+<section id="pagination" class="bg-creme footer">
+    <div class="container">
+        <div id="pages" class="pagination">
+        </div>
+    </div>
+</section>
+
 
 </body>
-
 </html>
