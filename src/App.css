@@ -40,7 +40,6 @@ img {
     max-width: 100%;
 }
 
-
 input {
     margin-left: auto;
     margin-right: auto;
@@ -99,7 +98,6 @@ header {
     background-color: antiquewhite;
 }
 
-
 .authorizationBlock {
     padding-block: 1rem;
 }
@@ -109,8 +107,6 @@ header {
     height: 200px;
     margin: auto;
     padding: 1rem;
-    /*padding-left: 30px;*/
-    /*padding-right: 30px;*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -125,10 +121,8 @@ header {
 }
 
 .knowledgePanel {
-    /*border: solid 5px #333029;*/
     margin-inline: 5rem;
     display: grid;
-    /*grid-template-columns: repeat(8, minmax(10em, 1fr));*/
     grid-gap: 3rem;
     justify-content: center;
 }
@@ -138,7 +132,6 @@ header {
     text-align: left;
     height: auto;
     background-color: white;
-    /*max-width: 300px;*/
     flex-direction: column;
     padding: 1rem;
     border: solid burlywood 5px;
@@ -160,7 +153,6 @@ header {
     bottom: 0;
 
 }
-
 
 .pagination {
     display: flex;

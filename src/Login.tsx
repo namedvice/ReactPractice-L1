@@ -3,35 +3,36 @@ import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const navigate = useNavigate();
-    // let loginForm = document.getElementById("loginForm");
 
     const checkAuth = () => {
-        let username: any = document.getElementById('username');
-        let password: any = document.getElementById('password');
+        const username: HTMLInputElement = document.getElementById('username') as HTMLInputElement;
+        let password: HTMLInputElement | null = document.getElementById('password') as HTMLInputElement;
 
-        if (username.value === "" || password.value === "") {
+        if (username && password) {
+            if (username.value === "" || password.value === "") {
 
-            //throw input borders in red
-            username.className = `${username.className} invalid`
-            username.setCustomValidity("Поле должно быть заполненным!");
+                //throw input borders in red
+                username.className = `${username.className} invalid`
+                username.setCustomValidity("Поле должно быть заполненным!");
 
-            password.className = `${password.className} invalid`
-            password.setCustomValidity("Поле должно быть заполненным!");
+                password.className = `${password.className} invalid`
+                password.setCustomValidity("Поле должно быть заполненным!");
 
-        } else if (username.value === "123" && password.value === "123") {
-            alert("This form has been successfully submitted!");
-            let token = (Math.random() + 1).toString(36).substring(7);
-            sessionStorage.setItem("authorizationKey", token);
-            // location.reload()
-            navigate("/Home")
+            } else if (username.value === "123" && password.value === "123") {
+                alert("This form has been successfully submitted!");
+                let token = (Math.random() + 1).toString(36).substring(7);
+                sessionStorage.setItem("authorizationKey", token);
+                // location.reload()
+                navigate("/Home")
 
-        } else {
-            username.className = `${username.className} invalid`
-            username.setCustomValidity("Логин или пароль неверны!");
-            password.className = `${password.className} invalid`
+            } else {
+                username.className = `${username.className} invalid`
+                username.setCustomValidity("Логин или пароль неверны!");
+                password.className = `${password.className} invalid`
+            }
+            username.value = '';
+            password.value = '';
         }
-        username.value = null;
-        password.value = null;
     }
 
 

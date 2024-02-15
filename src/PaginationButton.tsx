@@ -17,7 +17,7 @@ function PaginationButton({currentPage, pageToLoad, children, paginationButtonCl
 
     return (
         <button className={style} key={pageToLoad} onClick={handleClick}>
-            {children ? children : pageToLoad}
+            {children || pageToLoad}
         </button>
     )
 }

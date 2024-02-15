@@ -2,6 +2,8 @@ import './App.css'
 import Pagination from "./Pagination";
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import KnowledgeBlock from "./KnowledgeBlock"
+import fetchDogsInfo from "./FetchDogsInfo";
+import fetchCatsInfo from "./FetchCatsInfo";
 
 interface ExampleObject {
     id: number
@@ -15,8 +17,9 @@ interface ExampleObject {
 function KnowledgePanel() {
 
     const [currentPage, setCurrentPage] = useState<number>(1); // Текущая отображаемая страница
-    const numberOfDogs = 25
-    const numberOfCats = 25
+
+    const numberOfDogs: number = 25
+    const numberOfCats: number = 25
 
     const pages: Array<number> = []
     let DOGS_PER_PAGE = 4
@@ -33,37 +36,11 @@ function KnowledgePanel() {
     const [catsList, setCatsList] = useState<number[]>([])
     const [dogsList, setDogsList] = useState<number[]>([])
 
-    const fetchDogsInfo = async () => {
-        try {
-            const response = await fetch(`https://api.thedogapi.com/v1/breeds?limit=${numberOfDogs}`, {
-                method: "GET", headers: {
-                    "x-api-key": "live_lWvmtEurGGkiDbuhzBhBgPfe4Snq0vqj7nQL2bx3CXfxcYVEMPZHGWnbIa3cYy7F"
-                }
-            })
-            setDogsInfo(await response.json())
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const fetchCatsInfo = async () => {
-        try {
-            const response = await fetch(`https://api.thecatapi.com/v1/breeds?limit=${numberOfCats}`, {
-                method: "GET", headers: {
-                    "x-api-key": "live_qTto4DK2B9DlgwEAyOqLNLd2Rt6nNxwhZxxz6AzdcCtFOYft9awLT2h6VNZ35hVm"
-                }
-            })
-            setCatsInfo(await response.json())
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
 
     const getKnowledgeBlocks = async () => {
 
-        await fetchDogsInfo()
-        await fetchCatsInfo()
+        setDogsInfo(await fetchDogsInfo(numberOfDogs))
+        setCatsInfo(await fetchCatsInfo(numberOfCats))
 
     }
 

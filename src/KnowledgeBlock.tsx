@@ -1,7 +1,11 @@
 interface AnimalObject {
+
+
+    image: { url: string } | string;
     name?: string;
+
     temperament?: string;
-    image: any | { url?: string };
+
 }
 
 interface Props {
@@ -13,17 +17,21 @@ function KnowledgeBlock({animalType, animalInfo}: Props) {
     let animalDescription: string
     let animalName: string
     let animalImageURL: string = ''
-    if (animalInfo.name && animalInfo.temperament && animalInfo.image && animalInfo.image.url) {
+    if (animalInfo.name && animalInfo.temperament && (typeof animalInfo.image === 'string' || typeof animalInfo.image === 'object')) {
         switch (animalType) {
             case "dog":
                 animalDescription = animalInfo.temperament
                 animalName = animalInfo.name
-                animalImageURL = animalInfo.image.url
+                if (typeof animalInfo.image === 'object') {
+                    animalImageURL = animalInfo.image.url
+                }
                 break
             case "cat":
                 animalDescription = animalInfo.temperament
                 animalName = animalInfo.name
-                animalImageURL = animalInfo.image.url
+                if (typeof animalInfo.image === 'object') {
+                    animalImageURL = animalInfo.image.url
+                }
                 break
         }
     }
