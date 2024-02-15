@@ -1,14 +1,14 @@
 import './styles/main.css'
-import {setupLoginForm} from "./login.js";
 
-let currentPage; // Текущая отображаемая страница
+
+let currentPage: number; // Текущая отображаемая страница
 if (sessionStorage.getItem("currentPage")) {
     currentPage = Number(sessionStorage.getItem("currentPage"));
 } else {
     currentPage = 1;
 }
 
-let pagesHTML = document.getElementById("pages")
+let pagesHTML: any = document.getElementById("pages")
 
 let DOGS_PER_PAGE = 4
 let CATS_PER_PAGE = 4
@@ -26,9 +26,9 @@ const numberOfDogs = 25
 const numberOfCats = 25
 
 //dogs and cats arrays of rendered html elements
-const catsList = []
-const dogsList = []
-let knowledgeBlocks = []
+const catsList: any = []
+const dogsList: any = []
+// let knowledgeBlocks = []
 
 const getDogsInfo = async () => {
     try {
@@ -57,7 +57,7 @@ const getCatsInfo = async () => {
 }
 
 
-const renderBlock = (animalType, animalInfo) => {
+const renderBlock = (animalType: string, animalInfo: any) => {
     switch (animalType) {
         case "cat":
             return (`<div class="knowledgeBlock">
@@ -71,6 +71,8 @@ const renderBlock = (animalType, animalInfo) => {
         <h3>${animalInfo.name}</h3>
         <p>${animalInfo.temperament}</p>
         </div>`)
+        default:
+            return null
     }
 }
 
@@ -121,23 +123,21 @@ const getKnowledgeBlocks = async () => {
 
 }
 
-const setCurrentPage = (pageToLoad) => {
+const setCurrentPage = (pageToLoad: number) => {
     currentPage = pageToLoad;
-    sessionStorage.setItem("currentPage", currentPage)
+    sessionStorage.setItem("currentPage", currentPage.toString())
     location.reload()
 }
-
-const createPaginationButtons = (pagesCount) => {
+// export default setCurrentPage
+(window as any).setCurrentPage = setCurrentPage
+const createPaginationButtons = (pagesCount: number) => {
     let buttonsCounter = 0;
     let i
     const buttonsBeforeSelected = 3
 
     //depending on maximum displayed buttons - we make user see only selected one and 3 before them
     if (currentPage > 4) {
-        pagesHTML.innerHTML += `<button class="pageButton" key={12345}>В начало</button>`;
-        pagesHTML.children[pagesHTML.children.length - 1].addEventListener("click", function () {
-            setCurrentPage(1)
-        })
+        pagesHTML.innerHTML += `<button class="pageButton" key={12345} onclick="setCurrentPage(1)">В начало</button>`;
         buttonsCounter++
         pagesHTML.innerHTML += `<button class="pageButton_inactive" key={111}>...</button>`;
         buttonsCounter++
@@ -151,11 +151,7 @@ const createPaginationButtons = (pagesCount) => {
             if (i === currentPage) {
                 className = "pageButton_highlighted"
             }
-            pagesHTML.innerHTML += `<button class=${className} key=${i}>${i}</button>`;
-            pagesHTML.children.item(pagesHTML.children.length - 1).addEventListener("click", function () {
-                console.log("That's your i: " + i)
-            })
-            console.log(pagesHTML.children.item(pagesHTML.children.length - 1))
+            pagesHTML.innerHTML += `<button class=${className} key=${i} onclick="setCurrentPage(${i})">${i}</button>`;
         } else break
     }
 
@@ -184,7 +180,7 @@ export const renderKnowledgePanel = async () => {
     checkDeviceWidth()
 
     // Вычисление индекса первого отображаемого элемента
-    const startIndex = currentPage * (currentCatsPerPage + currentDogsPerPage) - (currentCatsPerPage + currentDogsPerPage)
+    // const startIndex = currentPage * (currentCatsPerPage + currentDogsPerPage) - (currentCatsPerPage + currentDogsPerPage)
 
     if (catsList.length === 0 || dogsList.length === 0) {
         await getKnowledgeBlocks()
@@ -201,13 +197,13 @@ export const renderKnowledgePanel = async () => {
     let blocksOnThePage = [].concat(catsList, dogsList)
 
 
-    document.getElementById("knowledgePanel").innerHTML = blocksOnThePage.join("")
+    document.getElementById("knowledgePanel")!.innerHTML = blocksOnThePage.join("")
 
     //change CSS of knowledge panel according to amount of items on the page
     if (currentDogsPerPage > currentCatsPerPage) {
-        document.getElementById("knowledgePanel").style.gridTemplateColumns = `repeat(${currentDogsPerPage},minmax(13em, 15em))`
+        document.getElementById("knowledgePanel")!.style.gridTemplateColumns = `repeat(${currentDogsPerPage},minmax(13em, 15em))`
     } else {
-        document.getElementById("knowledgePanel").style.gridTemplateColumns = `repeat(${currentCatsPerPage},minmax(13em, 15em))`
+        document.getElementById("knowledgePanel")!.style.gridTemplateColumns = `repeat(${currentCatsPerPage},minmax(13em, 15em))`
     }
 
 
@@ -215,18 +211,19 @@ export const renderKnowledgePanel = async () => {
 }
 
 
-
-
 const checkDeviceWidth = () => {
-    if (visualViewport.width < 1024) {
+    if (visualViewport!.width < 1024) {
         DOGS_PER_PAGE = 2
         CATS_PER_PAGE = 2
         currentDogsPerPage = DOGS_PER_PAGE
         currentCatsPerPage = CATS_PER_PAGE
     }
-    console.log("Viewport Width = " + visualViewport.width)
+    console.log("Viewport Width = " + visualViewport!.width)
 }
 
-visualViewport.addEventListener("resize", () => {
+visualViewport!.addEventListener("resize", () => {
     checkDeviceWidth()
 })
+
+// export default setCurrentPage;
+// exports.setCurrentPage = setCurrentPage
