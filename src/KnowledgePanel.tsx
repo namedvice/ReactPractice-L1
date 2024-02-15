@@ -9,11 +9,6 @@ interface ExampleObject {
     id: number
 }
 
-// interface Props {
-//     currentPage: number
-//     setCurrentPage: Dispatch<SetStateAction<number>>
-// }
-
 function KnowledgePanel() {
 
     const [currentPage, setCurrentPage] = useState<number>(1); // Текущая отображаемая страница
@@ -144,6 +139,3 @@ function KnowledgePanel() {
 }
 
 export default KnowledgePanel;
-
-// export default setCurrentPage;
-// exports.setCurrentPage = setCurrentPage
