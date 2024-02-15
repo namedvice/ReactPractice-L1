@@ -1,19 +1,34 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "module": "commonjs",
-    "noImplicitAny": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
+    "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "sourceMap": true,
-    "declaration": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
     "moduleResolution": "node",
-//    "allowImportingTsExtensions": true,
-//    "noEmit": false,
-    "outDir": "./dist",
-    "rootDir": "."
+    "rootDir": "./",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
-  "include": [
-    "**/*.ts",
-    "src"
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ],
+  "types": [
+    "typePatches"
   ]
 }

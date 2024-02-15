@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
     entry: {
-        bundle: path.resolve(__dirname, './src/index.ts')
+        bundle: path.resolve(__dirname, './src/index.tsx')
     },
     output: {
         clean: true,
@@ -56,7 +56,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'React Test App',
             filename: 'index.html',
-            template: 'src/template.html'
+            template: 'index.html'
         })
     ]
 }
