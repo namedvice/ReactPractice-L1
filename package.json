@@ -5,7 +5,8 @@
   "main": "src/index.tsx",
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -13,9 +14,15 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "3.2.5",
     "ts-loader": "^9.5.1",
     "webpack-dev-middleware": "^7.0.0",
-    "webpack-dev-server": "^4.15.1"
+    "webpack-dev-server": "^4.15.1",
+    "husky": "^8.0.0"
   },
   "eslintConfig": {
     "extends": [
