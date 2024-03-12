@@ -7,7 +7,8 @@
     "build": "webpack",
     "start": "webpack serve",
     "prepare": "husky install",
-    "lint": "eslint"
+    "lint": "eslint . --fix --max-warnings=0",
+    "format": "prettier . --write"
   },
   "type": "module",
   "author": "",
@@ -31,6 +32,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^8.0.0",
+    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "ts-loader": "^9.5.1",
     "webpack-dev-middleware": "^7.0.0",
@@ -61,5 +63,8 @@
     "web-vitals": "^2.1.4",
     "webpack-cli": "^5.1.4",
     "webpack-hot-middleware": "^2.26.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
