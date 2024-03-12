@@ -1,5 +1,5 @@
-const path = import("path");
-const HtmlWebpackPlugin = import("html-webpack-plugin");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -10,7 +10,7 @@ module.exports = {
     clean: true,
     path: path.resolve(__dirname, "dist"),
     filename: "[name][contenthash].js",
-    //does not allow for multiple bundle.js to arrive in dist folder
+    // does not allow for multiple bundle.js to arrive in dist folder
     assetModuleFilename: "[name][ext]",
   },
   devtool: "source-map",
@@ -18,7 +18,7 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, "dist"),
     },
-    port: 3000, //specifies port number
+    port: 3000, // specifies port number
     open: true,
     hot: true,
     compress: true,
